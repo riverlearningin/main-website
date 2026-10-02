@@ -1,0 +1,13 @@
+node_modules
+.next
+out
+next-env.d.ts
+*.tsbuildinfo
+
+.vercel
+
+# reference material, kept out of the public repo
+river-learning-website-handoff/
+River_Learning_Website_Content.md
+case_studies_table_rewritten*.md
+river-learning-design-spec.md
