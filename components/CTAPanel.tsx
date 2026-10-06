@@ -9,7 +9,7 @@ type Action = { label: string; href: string };
 
 const DEFAULTS = {
   heading: "Let's talk about what's holding your business back.",
-  body: "Whether it's a shop floor that's outgrown its systems, a sales process running on gut instinct, or a growth plan that needs a clear roadmap — the first conversation costs nothing but an hour of your time.",
+  body: "Whether it's a shop floor that's outgrown its systems, a sales process running on gut instinct, or a growth plan that needs a clear roadmap — the first conversation costs nothing.",
   primary: { label: "Start the conversation", href: "/contact" },
   secondary: { label: SITE.phone, href: SITE.phoneHref },
 };

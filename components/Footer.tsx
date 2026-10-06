@@ -18,6 +18,7 @@ export function Footer() {
               <li><Link href="/services">Services</Link></li>
               <li><Link href="/training">Training</Link></li>
               <li><Link href="/products">Products</Link></li>
+              <li><Link href="/case-studies">Case studies</Link></li>
               <li><Link href="/contact">Contact</Link></li>
             </ul>
           </nav>

@@ -9,7 +9,7 @@ import { Words } from "@/components/Words";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Talk to Gopal Kamath at River Learning. Call +91 98812 02348, email gopal@riverlearning.in or send a message — the first conversation costs nothing but an hour of your time.",
+    "Talk to Gopal Kamath at River Learning. Call +91 98812 02348, email gopal@riverlearning.in or send a message — the first conversation costs nothing.",
   alternates: { canonical: "/contact" },
 };
 
@@ -34,7 +34,7 @@ export default function Contact() {
           <div className="eyebrow ld l0">Contact</div>
           <h1><Words text="Let's talk about what's holding your business back." load /></h1>
           <p className="ld l10">
-            Whether it&apos;s a shop floor that&apos;s outgrown its systems, a sales process running on gut instinct, or a growth plan that needs a clear roadmap — the first conversation costs nothing but an hour of your time.
+            Whether it&apos;s a shop floor that&apos;s outgrown its systems, a sales process running on gut instinct, or a growth plan that needs a clear roadmap.
           </p>
           <div className="ct-rows ld l11">
             {ROWS.map((r) => (

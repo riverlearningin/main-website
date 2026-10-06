@@ -23,22 +23,25 @@ const EMPTY: Values = { name: "", company: "", email: "", phone: "", topic: "", 
 function validate(v: Values): Errors {
   const e: Errors = {};
   if (!v.name.trim()) e.name = "Please enter your name.";
+  if (!v.company.trim()) e.company = "Please enter your company name.";
   if (!v.email.trim()) e.email = "Please enter your email address.";
   else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.email.trim())) e.email = "That email address doesn't look right.";
-  if (v.phone.trim() && !/^[+\d][\d\s().-]{5,}$/.test(v.phone.trim())) e.phone = "Please enter a valid phone number, or leave it blank.";
+  if (!v.phone.trim()) e.phone = "Please enter your phone number.";
+  else if (!/^[+\d][\d\s().-]{5,}$/.test(v.phone.trim())) e.phone = "That phone number doesn't look right.";
+  if (!v.topic) e.topic = "Please choose a topic.";
   if (!v.msg.trim()) e.msg = "Please tell us a little about where your business stands.";
   return e;
 }
 
 /** Builds the mailto: link. The message is composed in the visitor's own email app; nothing is sent from the site. */
 function mailtoHref(v: Values) {
-  const subject = `Website enquiry${v.topic ? ` — ${v.topic}` : ""} — ${v.name.trim()}`;
+  const subject = `Website enquiry — ${v.topic} — ${v.name.trim()}`;
   const details = [
     `Name: ${v.name.trim()}`,
-    v.company.trim() ? `Company: ${v.company.trim()}` : "",
+    `Company: ${v.company.trim()}`,
     `Email: ${v.email.trim()}`,
-    v.phone.trim() ? `Phone: ${v.phone.trim()}` : "",
-    v.topic ? `Topic: ${v.topic}` : "",
+    `Phone: ${v.phone.trim()}`,
+    `Topic: ${v.topic}`,
   ].filter(Boolean);
   const body = details.join("\n") + "\n\n" + v.msg.trim();
   return `mailto:${SITE.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
@@ -69,9 +72,9 @@ export function ContactForm() {
     window.location.href = link;
   }
 
-  const field = (id: keyof Values, label: string, type: string, auto: string, optional?: boolean) => (
+  const field = (id: keyof Values, label: string, type: string, auto: string) => (
     <div className="fld">
-      <label htmlFor={id}>{label}{optional ? <i> (optional)</i> : null}</label>
+      <label htmlFor={id}>{label}</label>
       <input
         id={id}
         name={id}
@@ -81,7 +84,7 @@ export function ContactForm() {
         onChange={set(id)}
         aria-invalid={errors[id] ? true : undefined}
         aria-describedby={errors[id] ? `${id}-err` : undefined}
-        aria-required={!optional || undefined}
+        aria-required={undefined}
       />
       {errors[id] ? <span id={`${id}-err`} className="err">{errors[id]}</span> : null}
     </div>
@@ -119,16 +122,25 @@ export function ContactForm() {
       {errCount ? <div className="form-err" role="alert">Please fix the {errCount === 1 ? "field" : `${errCount} fields`} marked below.</div> : null}
       <div className="two">
         {field("name", "Full name", "text", "name")}
-        {field("company", "Company", "text", "organization", true)}
+        {field("company", "Company", "text", "organization")}
         {field("email", "Email", "email", "email")}
-        {field("phone", "Phone", "tel", "tel", true)}
+        {field("phone", "Phone", "tel", "tel")}
       </div>
       <div className="fld">
-        <label htmlFor="topic">What would you like to talk about? <i>(optional)</i></label>
-        <select id="topic" name="topic" value={v.topic} onChange={set("topic")}>
+        <label htmlFor="topic">What would you like to talk about?</label>
+        <select
+          id="topic"
+          name="topic"
+          value={v.topic}
+          onChange={set("topic")}
+          aria-invalid={errors.topic ? true : undefined}
+          aria-describedby={errors.topic ? "topic-err" : undefined}
+          aria-required="true"
+        >
           <option value="">Choose a topic</option>
           {TOPICS.map((t) => <option key={t}>{t}</option>)}
         </select>
+        {errors.topic ? <span id="topic-err" className="err">{errors.topic}</span> : null}
       </div>
       <div className="fld">
         <label htmlFor="msg">Where does your business stand today?</label>
